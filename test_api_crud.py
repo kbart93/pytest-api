@@ -2,6 +2,8 @@ import requests
 import json
 import logging
 
+logging.basicConfig(level=logging.INFO)
+
 def test_get_user():
     p = {"page": 2}
     resp = requests.get("https://reqres.in/api/users", params=p)
@@ -41,7 +43,7 @@ def test_create_user():
     assert resp.json()["name"] == "Jan", "wrong data!"
 
     response = requests.post("https://reqres.in/api/users", data=personal_info)
-    print(response.json())
+    logging.info(response.json())
     assert response.json()["job"] == "Soldier", "wrong data!"
     assert response.json()["name"] == "Kuba", "wrong data!"
 
@@ -54,7 +56,6 @@ def test_create_user_from_file():
 
 def test_put_patch():
 
-    #PUT
 
     first_person_data = {
         "name": "Tim",
@@ -71,7 +72,6 @@ def test_put_patch():
     assert resp.json()["job"] == "Doctor"
     logging.info(resp.json())
 
-    # PATH
 
     response = requests.patch("https://reqres.in/api/users/2", data=second_person_name)
     assert response.json()["name"] == "Tim"
@@ -81,3 +81,5 @@ def test_delete_user():
     resp = requests.delete("https://reqres.in/api/users/2")
     logging.info(resp.status_code)
     assert resp.status_code == 204, "User deletion failed"
+
+
